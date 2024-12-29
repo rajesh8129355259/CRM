@@ -51,7 +51,7 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <h3 class="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <a href="{{ route('leads.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-md">
+                        <a href="{{ route('admin.leads.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-md">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                             </svg>
@@ -87,7 +87,7 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-lg font-medium text-gray-900">Recent Leads</h3>
-                        <a href="{{ route('leads.index') }}" class="text-blue-500 hover:text-blue-700">View All</a>
+                        <a href="{{ route('admin.leads.index') }}" class="text-blue-500 hover:text-blue-700">View All</a>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
@@ -104,7 +104,7 @@
                                 @foreach(\App\Models\Lead::with('category')->latest()->take(5)->get() as $lead)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <a href="{{ route('leads.show', $lead) }}" class="text-blue-600 hover:text-blue-900">
+                                        <a href="{{ route('admin.leads.show', $lead) }}" class="text-blue-600 hover:text-blue-900">
                                             {{ $lead->first_name }} {{ $lead->last_name }}
                                         </a>
                                     </td>

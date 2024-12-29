@@ -7,7 +7,7 @@
     </div>
     
     <div class="px-4 py-5 sm:p-6">
-        <form action="{{ route('leads.store') }}" method="POST">
+        <form action="{{ route('admin.leads.store') }}" method="POST">
             @csrf
             
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -146,7 +146,7 @@
                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                     Create Lead
                 </button>
-                <a href="{{ route('leads.index') }}" class="ml-3 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                <a href="{{ route('admin.leads.index') }}" class="ml-3 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                     Cancel
                 </a>
             </div>

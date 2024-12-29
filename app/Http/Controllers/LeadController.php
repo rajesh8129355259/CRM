@@ -80,7 +80,7 @@ class LeadController extends Controller
             }
         }
 
-        return redirect()->route('leads.index')->with('success', 'Lead created successfully.');
+        return redirect()->route('admin.leads.index')->with('success', 'Lead created successfully.');
     }
 
     public function show(Lead $lead)
@@ -126,26 +126,26 @@ class LeadController extends Controller
             }
         }
 
-        return redirect()->route('leads.index')->with('success', 'Lead updated successfully.');
+        return redirect()->route('admin.leads.index')->with('success', 'Lead updated successfully.');
     }
 
     public function destroy(Lead $lead)
     {
         $lead->delete();
-        return redirect()->route('leads.index')->with('success', 'Lead deleted successfully.');
+        return redirect()->route('admin.leads.index')->with('success', 'Lead deleted successfully.');
     }
 
     public function export(Request $request)
     {
         if (!Gate::allows('export_leads')) {
-            return redirect()->route('leads.index')
+            return redirect()->route('admin.leads.index')
                 ->with('error', 'You do not have permission to export leads.');
         }
 
         try {
             return Excel::download(new LeadsExport($request), 'leads.xlsx');
         } catch (\Exception $e) {
-            return redirect()->route('leads.index')
+            return redirect()->route('admin.leads.index')
                 ->with('error', 'Failed to export leads. ' . $e->getMessage());
         }
     }
@@ -153,7 +153,7 @@ class LeadController extends Controller
     public function import(Request $request)
     {
         if (!Gate::allows('import_leads')) {
-            return redirect()->route('leads.index')
+            return redirect()->route('admin.leads.index')
                 ->with('error', 'You do not have permission to import leads.');
         }
 
@@ -165,7 +165,7 @@ class LeadController extends Controller
             $import = new LeadsImport;
             Excel::import($import, $request->file('file'));
 
-            return redirect()->route('leads.index')
+            return redirect()->route('admin.leads.index')
                 ->with('success', $import->getImportedCount() . ' leads imported successfully.');
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
             $failures = $e->failures();
@@ -173,11 +173,16 @@ class LeadController extends Controller
                 return "Row {$failure->row()}: {$failure->errors()[0]}";
             })->join('<br>');
 
-            return redirect()->route('leads.index')
+            return redirect()->route('admin.leads.index')
                 ->with('error', 'Import failed. ' . $errors);
         } catch (\Exception $e) {
-            return redirect()->route('leads.index')
+            return redirect()->route('admin.leads.index')
                 ->with('error', 'Failed to import leads. ' . $e->getMessage());
         }
+    }
+
+    public function embed()
+    {
+        return view('admin.leads.embed');
     }
 }

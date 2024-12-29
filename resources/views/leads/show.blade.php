@@ -6,10 +6,10 @@
         <div class="flex justify-between items-center">
             <h1 class="text-2xl font-semibold text-gray-900">Lead Details</h1>
             <div class="flex space-x-4">
-                <a href="{{ route('leads.edit', $lead) }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    Edit Lead
+                <a href="{{ route('admin.leads.edit', $lead) }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+                    Edit
                 </a>
-                <form action="{{ route('leads.destroy', $lead) }}" method="POST" class="inline">
+                <form action="{{ route('admin.leads.destroy', $lead) }}" method="POST" class="inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit" onclick="return confirm('Are you sure you want to delete this lead?')" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">

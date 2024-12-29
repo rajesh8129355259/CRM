@@ -9,13 +9,14 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\LeadCategoryController;
 use Illuminate\Support\Facades\Route;
 
-// Public lead form routes
-Route::prefix('public')->group(function () {
-    Route::get('leads/form/{token?}', [PublicLeadController::class, 'form'])->name('public.leads.form');
-    Route::post('leads', [PublicLeadController::class, 'store'])->name('public.leads.store');
-    Route::get('leads/embed.js', [PublicLeadController::class, 'script'])->name('public.leads.script');
-});
+// CSRF token route
+Route::get('/csrf-token', function () {
+    return response()->json([
+        'token' => csrf_token()
+    ]);
+})->middleware('web');
 
+// Admin routes
 Route::middleware('web')->group(function () {
     // Guest routes
     Route::middleware('guest:admin')->group(function () {
@@ -43,15 +44,22 @@ Route::middleware('web')->group(function () {
             
             // User management routes
             Route::resource('users', UserController::class)->names('admin.users');
+
+            // Lead category routes
+            Route::resource('lead-categories', LeadCategoryController::class)->names('admin.lead-categories');
+            
+            // Leads routes
+            Route::get('leads/embed', [LeadController::class, 'embed'])->name('admin.leads.embed');
+            Route::get('leads/export', [LeadController::class, 'export'])->name('admin.leads.export');
+            Route::post('leads/import', [LeadController::class, 'import'])->name('admin.leads.import');
+            Route::resource('leads', LeadController::class)->names('admin.leads');
         });
-
-        // Lead management routes
-        Route::resource('leads', LeadController::class);
-        Route::get('leads/embed/code', [LeadController::class, 'embed'])->name('leads.embed');
-        Route::get('leads/export', [LeadController::class, 'export'])->name('leads.export');
-        Route::post('leads/import', [LeadController::class, 'import'])->name('leads.import');
-
-        // Lead category routes
-        Route::resource('lead-categories', LeadCategoryController::class)->names('admin.lead-categories');
     });
+});
+
+// Public lead form routes - these should be last to avoid conflicts
+Route::middleware('web')->group(function () {
+    Route::get('leads/form/{token?}', [PublicLeadController::class, 'form'])->name('public.leads.form');
+    Route::post('leads/submit', [PublicLeadController::class, 'store'])->name('public.leads.store');
+    Route::get('leads/embed.js', [PublicLeadController::class, 'script'])->name('public.leads.script');
 });

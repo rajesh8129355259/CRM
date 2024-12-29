@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Form Demo</title>
+</head>
+<body>
+    <h1 style="text-align: center; margin: 40px 0;">Lead Form Demo</h1>
+    
+    <!-- Lead Form Container -->
+    <div id="lead-form"></div>
+
+    <!-- Error Display -->
+    <div id="error-display" style="color: red; text-align: center; margin-top: 20px;"></div>
+
+    <!-- Debug Console -->
+    <div id="debug-console" style="margin-top: 20px; padding: 10px; background: #f5f5f5;">
+        <h3>Debug Console</h3>
+        <pre id="debug-output" style="white-space: pre-wrap;"></pre>
+    </div>
+
+    <!-- Embed Script -->
+    <script>
+        // Capture console logs
+        const debugOutput = document.getElementById('debug-output');
+        const originalConsole = { ...console };
+        console.log = function() {
+            debugOutput.textContent += '> ' + Array.from(arguments).join(' ') + '\n';
+            originalConsole.log.apply(console, arguments);
+        };
+        console.error = function() {
+            debugOutput.textContent += '❌ ' + Array.from(arguments).join(' ') + '\n';
+            originalConsole.error.apply(console, arguments);
+        };
+
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+            const errorDisplay = document.getElementById('error-display');
+            const errorMessage = `Error: ${msg}\nLine: ${lineNo}\nColumn: ${columnNo}`;
+            if (errorDisplay) {
+                errorDisplay.textContent = errorMessage;
+            }
+            console.error('JavaScript Error:', errorMessage);
+            return false;
+        };
+    </script>
+    <script src="/leads/embed.js"></script>
+</body>
+</html> 

@@ -9,7 +9,7 @@
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-2xl font-semibold text-gray-900">Leads</h2>
                     <div class="flex space-x-3">
-                        <a href="{{ route('leads.create') }}" 
+                        <a href="{{ route('admin.leads.create') }}" 
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Add New Lead
                         </a>
@@ -21,7 +21,7 @@
                             <div x-show="open" @click.away="open = false"
                                 class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50">
                                 <div class="py-1">
-                                    <a href="{{ route('leads.export', request()->query()) }}" 
+                                    <a href="{{ route('admin.leads.export', request()->query()) }}" 
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                         Export Leads
                                     </a>
@@ -36,7 +36,7 @@
                 </div>
 
                 <!-- Import Form (Hidden) -->
-                <form action="{{ route('leads.import') }}" method="POST" enctype="multipart/form-data" class="hidden">
+                <form action="{{ route('admin.leads.import') }}" method="POST" enctype="multipart/form-data" class="hidden">
                     @csrf
                     <input type="file" name="file" x-ref="importForm" 
                         class="hidden" accept=".csv" 
@@ -44,7 +44,7 @@
                 </form>
 
                 <!-- Filters -->
-                <form action="{{ route('leads.index') }}" method="GET" class="mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+                <form action="{{ route('admin.leads.index') }}" method="GET" class="mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
                         <label for="search" class="block text-sm font-medium text-gray-700">Search</label>
                         <input type="text" name="search" id="search" value="{{ request('search') }}"
@@ -92,7 +92,7 @@
                         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Apply Filters
                         </button>
-                        <a href="{{ route('leads.index') }}" class="ml-3 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                        <a href="{{ route('admin.leads.index') }}" class="ml-3 inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                             Clear Filters
                         </a>
                     </div>
@@ -104,7 +104,7 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    <a href="{{ route('leads.index', array_merge(request()->query(), ['sort_by' => 'name', 'sort_order' => request('sort_order', 'asc') === 'asc' ? 'desc' : 'asc'])) }}" 
+                                    <a href="{{ route('admin.leads.index', array_merge(request()->query(), ['sort_by' => 'name', 'sort_order' => request('sort_order', 'asc') === 'asc' ? 'desc' : 'asc'])) }}" 
                                         class="flex items-center">
                                         Name
                                         @if(request('sort_by') === 'name')
@@ -115,7 +115,7 @@
                                     </a>
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    <a href="{{ route('leads.index', array_merge(request()->query(), ['sort_by' => 'email', 'sort_order' => request('sort_order', 'asc') === 'asc' ? 'desc' : 'asc'])) }}"
+                                    <a href="{{ route('admin.leads.index', array_merge(request()->query(), ['sort_by' => 'email', 'sort_order' => request('sort_order', 'asc') === 'asc' ? 'desc' : 'asc'])) }}"
                                         class="flex items-center">
                                         Email
                                         @if(request('sort_by') === 'email')
@@ -127,7 +127,7 @@
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    <a href="{{ route('leads.index', array_merge(request()->query(), ['sort_by' => 'status', 'sort_order' => request('sort_order', 'asc') === 'asc' ? 'desc' : 'asc'])) }}"
+                                    <a href="{{ route('admin.leads.index', array_merge(request()->query(), ['sort_by' => 'status', 'sort_order' => request('sort_order', 'asc') === 'asc' ? 'desc' : 'asc'])) }}"
                                         class="flex items-center">
                                         Status
                                         @if(request('sort_by') === 'status')
@@ -138,7 +138,7 @@
                                     </a>
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    <a href="{{ route('leads.index', array_merge(request()->query(), ['sort_by' => 'created_at', 'sort_order' => request('sort_order', 'asc') === 'asc' ? 'desc' : 'asc'])) }}"
+                                    <a href="{{ route('admin.leads.index', array_merge(request()->query(), ['sort_by' => 'created_at', 'sort_order' => request('sort_order', 'asc') === 'asc' ? 'desc' : 'asc'])) }}"
                                         class="flex items-center">
                                         Created At
                                         @if(request('sort_by') === 'created_at')
@@ -149,7 +149,7 @@
                                     </a>
                                 </th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    <a href="{{ route('leads.index', array_merge(request()->query(), ['sort_by' => 'category', 'sort_order' => request('sort_order', 'asc') === 'asc' ? 'desc' : 'asc'])) }}"
+                                    <a href="{{ route('admin.leads.index', array_merge(request()->query(), ['sort_by' => 'category', 'sort_order' => request('sort_order', 'asc') === 'asc' ? 'desc' : 'asc'])) }}"
                                         class="flex items-center">
                                         {{ __('Category') }}
                                         @if(request('sort_by') === 'category')
@@ -193,9 +193,9 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <a href="{{ route('leads.show', $lead) }}" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
-                                    <a href="{{ route('leads.edit', $lead) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
-                                    <form action="{{ route('leads.destroy', $lead) }}" method="POST" class="inline">
+                                    <a href="{{ route('admin.leads.show', $lead) }}" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
+                                    <a href="{{ route('admin.leads.edit', $lead) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
+                                    <form action="{{ route('admin.leads.destroy', $lead) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure?')">

@@ -27,23 +27,26 @@ class CreateAdminUser extends Command
      */
     public function handle()
     {
-        $name = $this->ask('What is the admin name?');
         $email = $this->ask('What is the admin email?');
+        $name = $this->ask('What is the admin name?');
         $password = $this->secret('What is the admin password?');
 
-        $admin = Admin::create([
-            'name' => $name,
-            'email' => $email,
-            'password' => Hash::make($password),
-            'role' => 'admin'
-        ]);
+        try {
+            $admin = Admin::create([
+                'name' => $name,
+                'email' => $email,
+                'password' => Hash::make($password),
+                'role' => 'admin',
+                'is_active' => true
+            ]);
 
-        $this->info('Admin user created successfully!');
-        $this->table(
-            ['Name', 'Email', 'Role'],
-            [[$admin->name, $admin->email, $admin->role]]
-        );
-
-        return Command::SUCCESS;
+            $this->info('Admin user created successfully!');
+            $this->table(
+                ['Name', 'Email', 'Role'],
+                [[$admin->name, $admin->email, $admin->role]]
+            );
+        } catch (\Exception $e) {
+            $this->error('Failed to create admin user: ' . $e->getMessage());
+        }
     }
 }
